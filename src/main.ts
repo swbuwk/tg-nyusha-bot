@@ -17,6 +17,7 @@ const bot = new Telegraf(token);
 
 bot.command("about", about());
 bot.on("message", async (ctx: Context) => {
+  console.log("message!!!");
   const reaction = recognizeReaction(ctx);
   if (reaction) {
     await ctx.react(reaction);
