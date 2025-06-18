@@ -8,7 +8,7 @@ import { Digit } from "telegraf/typings/reactions";
 import { aiAnswer } from "./aiAnswer";
 
 const rudeWords = ["туп", "идиот", "глуп"];
-const niceWords = ["умн", "мудр"];
+const niceWords = ["умн", "мудр", "гений"];
 
 export function recognizeReaction(
   ctx: Context
@@ -32,7 +32,14 @@ export function recognizeReaction(
   return null;
 }
 
-export async function recognizeCommand(ctx: Context): Promise<string | null> {
+type CommandRespones = {
+  text: string;
+  reply: boolean;
+};
+
+export async function recognizeCommand(
+  ctx: Context
+): Promise<CommandRespones | null> {
   const groupFixedText = ctx.text?.[0] === "/" ? ctx.text?.slice(1) : ctx.text;
   const firstWord = groupFixedText?.split(" ")[0];
 
@@ -47,8 +54,22 @@ export async function recognizeCommand(ctx: Context): Promise<string | null> {
   console.log(`command(text): "${text}"`);
 
   if (text === "привет") {
-    return "мяу";
+    return {
+      text: "мяу",
+      reply: true,
+    };
   }
 
-  return await aiAnswer(ctx, text);
+  if (text === "мяу") {
+    return {
+      text: "мяууу",
+      reply: false,
+    };
+  }
+
+  const aiText = await aiAnswer(ctx, text);
+  return {
+    text: aiText,
+    reply: true,
+  };
 }
