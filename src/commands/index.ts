@@ -13,11 +13,12 @@ const niceWords = ["умн", "мудр", "гений"];
 export function recognizeReaction(
   ctx: Context
 ): MaybeArray<TelegramEmoji | `${Digit}${string}` | ReactionType> | null {
-  if (ctx.text?.includes("нюш")) {
+  const text = ctx.text?.toLowerCase();
+  if (text?.includes("нюш")) {
     console.log(`command(reaction): "${ctx.text}"`);
 
-    let isRude = rudeWords.some((word) => ctx?.text?.includes(word));
-    let isNice = niceWords.some((word) => ctx?.text?.includes(word));
+    let isRude = rudeWords.some((word) => text?.includes(word));
+    let isNice = niceWords.some((word) => text?.includes(word));
 
     if (isRude && isNice) {
       return "🦄";
@@ -45,7 +46,7 @@ export async function recognizeCommand(
 
   if (!firstWord?.startsWith("нюш")) return null;
 
-  const text = groupFixedText?.slice(firstWord?.length + 1) || "";
+  const text = groupFixedText?.slice(firstWord?.length + 1).toLowerCase() || "";
 
   if (text.replace(/\s/g, "").length === 0) {
     return null;

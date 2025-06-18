@@ -21,14 +21,15 @@ bot.on("message", async (ctx: Context) => {
   }
   const command = await recognizeCommand(ctx);
   if (command) {
+    const text = command.text.toLowerCase();
     const msgId = ctx.message?.message_id;
     if (command.reply && msgId) {
-      await ctx.reply(command.text, {
+      await ctx.reply(text, {
         reply_parameters: { message_id: msgId },
       });
       return;
     }
-    await ctx.reply(command.text);
+    await ctx.reply(text);
     return;
   }
 });
