@@ -38,8 +38,12 @@ export async function recognizeCommand(ctx: Context): Promise<string | null> {
 
   const text = groupFixedText?.slice(firstWord?.length + 1) || "";
 
+  if (text.replace(/\s/g, "").length === 0) {
+    return null;
+  }
+
   if (text === "привет") {
-    return "иди нахуй";
+    return "мяу";
   }
 
   return await aiAnswer(ctx, text);
