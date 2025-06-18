@@ -20,7 +20,7 @@ export const aiAnswer = async (ctx: Context, prompt: string) => {
     }),
   }).then((res) => res.json());
 
-  console.log(`AI answer: ${res?.choices?.[0]?.message}`);
+  console.log(`AI answer: ${res?.choices?.[0]?.message?.content}`);
 
   const answer = res?.choices?.[0]?.message?.content || "бабубэээ :D";
 
