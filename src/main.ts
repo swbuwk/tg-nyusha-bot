@@ -1,13 +1,10 @@
 import dotenv from "dotenv";
-import createDebug from "debug";
 import { Context, Telegraf } from "telegraf";
 import { recognizeCommand, recognizeReaction } from "./commands";
 import { about } from "./commands/about";
 
 dotenv.config();
 const token = process.env.TELEGRAM_BOT_TOKEN;
-
-const debug = createDebug("bot:dev");
 
 if (!token) {
   throw new Error("TELEGRAM_BOT_TOKEN is missing in .env file");
@@ -17,7 +14,6 @@ const bot = new Telegraf(token);
 
 bot.command("about", about());
 bot.on("message", async (ctx: Context) => {
-  console.log("message!!!");
   const reaction = recognizeReaction(ctx);
   if (reaction) {
     await ctx.react(reaction);
@@ -31,7 +27,7 @@ bot.on("message", async (ctx: Context) => {
 });
 
 bot.launch(() => {
-  debug("Bot started!");
+  console.log("Bot is running!");
 });
 
 process.once("SIGINT", () => bot.stop("SIGINT"));

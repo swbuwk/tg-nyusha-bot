@@ -1,10 +1,7 @@
 import { Context } from "telegraf";
-import createDebug from "debug";
-
-const debug = createDebug("bot:ai");
 
 export const aiAnswer = async (ctx: Context, prompt: string) => {
-  debug("Staring ai fetch");
+  console.log(`Staring AI answer for "${prompt}"`);
 
   const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
@@ -23,7 +20,7 @@ export const aiAnswer = async (ctx: Context, prompt: string) => {
     }),
   }).then((res) => res.json());
 
-  debug(`AI answer: ${res?.choices?.[0]?.message}`);
+  console.log(`AI answer: ${res?.choices?.[0]?.message}`);
 
   const answer = res?.choices?.[0]?.message?.content || "бабубэээ :D";
 

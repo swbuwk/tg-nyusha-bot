@@ -14,6 +14,8 @@ export function recognizeReaction(
   ctx: Context
 ): MaybeArray<TelegramEmoji | `${Digit}${string}` | ReactionType> | null {
   if (ctx.text?.includes("нюш")) {
+    console.log(`command(reaction): "${ctx.text}"`);
+
     let isRude = rudeWords.some((word) => ctx?.text?.includes(word));
     let isNice = niceWords.some((word) => ctx?.text?.includes(word));
 
@@ -41,6 +43,8 @@ export async function recognizeCommand(ctx: Context): Promise<string | null> {
   if (text.replace(/\s/g, "").length === 0) {
     return null;
   }
+
+  console.log(`command(text): "${text}"`);
 
   if (text === "привет") {
     return "мяу";
